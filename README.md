@@ -5,3 +5,7 @@ Run new install
     -w /var/www/html \
     laravelsail/php82-composer:latest \
     composer install --ignore-platform-reqs
+
+
+artisan migrate
+artisan passport:install
