@@ -42,9 +42,9 @@ class RaffleRepository extends Repository{
                 foreach($images as $image){
                     $extension = $image->getClientOriginalExtension();
                     $imageName = "{$raffle->id}".date('YmdHms').substr(microtime(true),11,4).".".$extension;
-                    $path = $image->move('storage/images',$imageName);
+                    $path = $image->storeAs('images',$imageName);
                     Image::create([
-                        'path'=>config('app.url')."/".$path,
+                        'path'=>config('app.url')."/storage/$path",
                         'raffle_id'=>$raffle->id
                     ]);
                 }
