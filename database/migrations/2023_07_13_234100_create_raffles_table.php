@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('drawn_date')->nullable();
             $table->time('drawn_time')->nullable();
             $table->integer('value_point')->default(0);
-            $table->integer('numeber_points')->default(0);
+            $table->integer('number_points')->default(0);
             $table->enum('format',['traditional', 'lottery']);
             $table->boolean('drawn')->default(false);
             $table->bigInteger('user_id')->unsigned();

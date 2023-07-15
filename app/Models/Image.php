@@ -5,13 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Raffle extends Model
+class Image extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
-
-    public function images(){
-        return $this->hasMany(Image::class, 'raffle_id');
-    }
+    protected $fillable = [
+        'path',
+        'raffle_id'
+    ]; 
 }

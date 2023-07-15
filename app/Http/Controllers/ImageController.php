@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RaffleRequest;
-use App\Models\Raffle;
-use App\Repositories\RaffleRepository;
+use App\Models\Image;
 use Illuminate\Http\Request;
 
-class RaffleController extends Controller
+class ImageController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request){
-        return (new RaffleRepository($request))->all();
+    public function index()
+    {
+        //
     }
 
     /**
@@ -27,23 +26,23 @@ class RaffleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(RaffleRequest $request)
+    public function store(Request $request)
     {
-        return (new RaffleRepository($request))->store();
+        //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, int $raffleId)
+    public function show(Image $image)
     {
-        return (new RaffleRepository($request))->show($raffleId);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Raffle $raffle)
+    public function edit(Image $image)
     {
         //
     }
@@ -51,7 +50,7 @@ class RaffleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Raffle $raffle)
+    public function update(Request $request, Image $image)
     {
         //
     }
@@ -59,7 +58,7 @@ class RaffleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Raffle $raffle)
+    public function destroy(Image $image)
     {
         //
     }
