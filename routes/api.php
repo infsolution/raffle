@@ -32,5 +32,5 @@ Route::middleware('auth:api')->prefix('v1')->group(function(){
 
 Route::middleware('guest')->prefix('v1')->group(function(){
     Route::post('raffle/add_point', [RaffleController::class, 'addPoint']);
-    Route::post('raffle/add_point', [RaffleController::class, 'addAffilated']);
+    Route::post('raffle/add_point', [RaffleController::class, 'addAffilateds']);
 });
