@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('points', function (Blueprint $table) {
             $table->id();
             $table->integer('number');
+            $table->boolean('paid')->default(false);
             $table->bigInteger('raffle_id')->unsigned();
             $table->foreign('raffle_id')->references('id')->on('raffles')->onDelete('cascade');
             $table->bigInteger('client_id')->unsigned();

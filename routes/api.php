@@ -28,3 +28,8 @@ Route::middleware('auth:api')->prefix('v1')->group(function(){
     Route::post('raffle',[RaffleController::class, 'store']);
     Route::get('raffle/{raffle_id}',[RaffleController::class, 'show']);
 });
+
+
+Route::middleware('guest')->prefix('v1')->group(function(){
+    Route::post('raffle/add_point', [RaffleController::class, 'addPoint']);
+});

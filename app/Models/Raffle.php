@@ -14,4 +14,8 @@ class Raffle extends Model
     public function images(){
         return $this->hasMany(Image::class, 'raffle_id');
     }
+
+    public function clients(){
+        return $this->hasMany(Client::class, 'raffle_id');
+    }
 }

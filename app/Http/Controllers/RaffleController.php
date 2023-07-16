@@ -63,4 +63,9 @@ class RaffleController extends Controller
     {
         //
     }
+
+
+    public function addPoint(Request $request){
+        return (new RaffleRepository($request))->addLotteryPoints();
+    }
 }

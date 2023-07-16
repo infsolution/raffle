@@ -11,4 +11,6 @@ abstract class Repository{
         $this->data = $request;
         $this->user = $request->user();
     }
+
+
 }
