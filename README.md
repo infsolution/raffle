@@ -10,3 +10,5 @@ docker run --rm \
 
 artisan migrate
 artisan passport:install
+
+sail artisan passport:client --personal
