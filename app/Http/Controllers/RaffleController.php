@@ -12,7 +12,8 @@ class RaffleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         return (new RaffleRepository($request))->all();
     }
 
@@ -65,7 +66,13 @@ class RaffleController extends Controller
     }
 
 
-    public function addPoint(Request $request){
+    public function addPoint(Request $request)
+    {
         return (new RaffleRepository($request))->addLotteryPoints();
+    }
+
+    public function addPayment(Request $request)
+    {
+        return (new RaffleRepository($request))->addPayment();
     }
 }
