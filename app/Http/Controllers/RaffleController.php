@@ -14,9 +14,14 @@ class RaffleController extends Controller
      */
     public function index(Request $request)
     {
-        return (new RaffleRepository($request))->all();
+        return (new RaffleRepository($request))->index();
     }
 
+
+    public function all(Request $request)
+    {
+        return (new RaffleRepository($request))->all();
+    }
     /**
      * Show the form for creating a new resource.
      */

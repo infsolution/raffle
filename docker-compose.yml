@@ -1,6 +1,6 @@
 version: '3'
 services:
-    backend:
+    raffle:
         build:
             context: ./vendor/laravel/sail/runtimes/8.2
             dockerfile: Dockerfile
@@ -23,12 +23,12 @@ services:
         networks:
             - raffles
         depends_on:
-            - database
+            - mysql
             - redis
             - meilisearch
             - mailpit
             - selenium
-    database:
+    mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
             - '${FORWARD_DB_PORT:-3306}:3306'

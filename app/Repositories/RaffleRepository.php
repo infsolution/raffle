@@ -21,6 +21,12 @@ class RaffleRepository extends Repository
     {
         parent::__construct($request);
     }
+
+    public function index()
+    {
+        $raffles = Raffle::all();
+        return response($raffles, 200);
+    }
     public function all()
     {
         $data = [];
@@ -101,7 +107,7 @@ class RaffleRepository extends Repository
                 "order" => $order->id
             );
             $saved = Redis::set("client_{$client->id}_raffle_{$raffleId}", json_encode($reservation));
-            return response($saved, 201);
+            return response($order, 201);
         }
         return response(['message' => 'Raffle finished'], 401);
     }
@@ -109,8 +115,8 @@ class RaffleRepository extends Repository
     public function addPoint($clientId, $raffleId)
     {
         $number = $this->generateLotteryNumber();
-        $exit = Redis::sIsMember("raffle_id_{$raffleId}_add_point", $number);
-        if ($exit) {
+        $exist = Redis::sIsMember("raffle_id_{$raffleId}_add_point", $number);
+        if ($exist) {
             $number = $this->generateLotteryNumber();
             $this->addPoint($clientId, $raffleId);
         } else {
@@ -141,7 +147,7 @@ class RaffleRepository extends Repository
 
     public function createClient(int $raffleId): Client
     {
-        $client = Client::create([
+        $client = Client::firstOrCreate([
             'name' => $this->data->input('name'),
             'email' => $this->data->input('email') ? $this->data->input('email') : null,
             'phone' => $this->data->input('phone') ? $this->data->input('phone') : null,
@@ -154,7 +160,7 @@ class RaffleRepository extends Repository
     public function addPayment()
     {
         $orderId = $this->data->input('order_id');
-        $order = Order::find($orderId);
+        $order = Order::where('id', $orderId)->where('paid', 0)->first();
         if (!$order) {
             return response(['message' => 'Ordem inexistente!'], 404);
         }
@@ -178,14 +184,28 @@ class RaffleRepository extends Repository
             $number = $this->addPoint($clientId, $raffle->id);
             array_push($listPoints, intval($number));
         }
-        $point = Point::create([
-            'numbers' => json_encode($listPoints),
-            'quantity' => $quantity,
-            'paid' => true,
-            'raffle_id' => $raffle->id,
-            'client_id' => $clientId
-        ]);
+        $point = $this->createOrUpdatePoint($listPoints, $quantity, $raffle->id, $clientId);
         Redis::del("raffle_id_{$raffleId}_add_point");
+        return $point;
+    }
+
+    public function createOrUpdatePoint($listPoints, $quantity, $raffleId, $clientId)
+    {
+        $point = Point::where('client_id', $clientId)->first();
+        if ($point) {
+            $oldPoints = json_decode($point->numbers, true);
+            array_push($oldPoints, ...$listPoints);
+            $point->numbers = json_encode($oldPoints);
+            $point->save();
+        } else {
+            $point = Point::create([
+                'numbers' => json_encode($listPoints),
+                'quantity' => $quantity,
+                'paid' => true,
+                'raffle_id' => $raffleId,
+                'client_id' => $clientId
+            ]);
+        }
         return $point;
     }
 }
