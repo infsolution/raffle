@@ -7,31 +7,33 @@ use App\Repositories\Repository;
 use Illuminate\Support\Facades\Auth;
 
 
-class AuthRepository extends Repository{
+class AuthRepository extends Repository
+{
 
     use RegexTrait;
 
-    public function __construct($request){
+    public function __construct($request)
+    {
         parent::__construct($request);
     }
 
-    
-    public function authenticate(){
+
+    public function authenticate()
+    {
         $username = $this->data->input('username');
         $password = $this->data->input('password');
-        $credentials = array('password'=>$password);
-        if($this->isEmail($username)){
+        $credentials = array('password' => $password);
+        if ($this->isEmail($username)) {
             $credentials['email'] = $username;
-        }else{
+        } else {
             $credentials['phone'] = $username;
         }
         Auth::attempt($credentials);
         $user = Auth::user();
-         if(!$user){
-            return response(['message'=>'unaltorized'], 401);
+        if (!$user) {
+            return response(['message' => 'User name or password no macth'], 401);
         }
         $token = $user->createToken('userToken')->accessToken;
-        return response(['access_token'=>$token], 200);
+        return response(['access_token' => $token], 200);
     }
-
 }
